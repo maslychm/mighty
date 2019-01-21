@@ -1,0 +1,2 @@
+# mighty
+Discord BOT
