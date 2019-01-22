@@ -1,3 +1,5 @@
+# Return a string in specified range
+
 import random
 
 def randomize(message=""):
