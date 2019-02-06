@@ -3,6 +3,7 @@
 from plugins.randomize import randomize
 from plugins.logging import logging
 from plugins.serverinfo import serverinfo
+from plugins import examples
 import random
 
 async def detect_command(client, message):
@@ -44,9 +45,18 @@ async def detect_command(client, message):
     if messagetext.startswith('!log'):
         logging(client)
         return
+
+    if messagetext.startswith("!wavecheck"):
+        msg = await examples.wavecheck(client,message)
+        await channel.send(msg)
+        return
     
     if messagetext.startswith('!serverinfo') or messagetext.startswith('!users'):
         msg = serverinfo(client,message)
         await channel.send(msg)
+
+    if messagetext.startswith('!thumb'):
+        await examples.thumb(client,message)
+        return
 
     return
