@@ -4,6 +4,7 @@ from plugins import randomize
 from plugins import logging
 from plugins import serverinfo
 from plugins import examples
+from plugins import helps
 import random
 
 async def detect_command(client, message):
@@ -17,30 +18,35 @@ async def detect_command(client, message):
             if msg.author == message.author:
                 counter += 1
         await tmp.edit(content=f'You have {counter} messages.')
+        return
 
     if messagetext.startswith('!hello'):
         await channel.send(f'Hello {message.author.mention}')
+        return
 
     if messagetext.startswith('!info'):
         msg = 'Written by mighty_lord#4526 \n' + \
             'https://github.com/maslychm/mighty'
         await channel.send(msg)
+        return
 
     if messagetext.startswith('!help'):
-        msg = 'avaliable commands:\n' + \
-            '`!help` `!test` `!info` `!hello` `!random` `!users` `!serverinfo`'
-        await channel.send(msg)
+        await helps.helps(client,message)
+        return
 
     if messagetext.startswith('!hewwo :3'):
         msg = 'Ayy you found an eastern egg `nuzzles`'
         await channel.send(msg)
+        return
 
     if messagetext.startswith("!random"):
         msg = randomize.randomize(message)
         await channel.send(msg)
+        return
         
     if messagetext.startswith('!roll'):
         await channel.send(f"`{random.randint(1,6)}`")
+        return
 
     if messagetext.startswith('!log'):
         logging.logging(client)
@@ -54,6 +60,7 @@ async def detect_command(client, message):
     if messagetext.startswith('!serverinfo') or messagetext.startswith('!users'):
         msg = serverinfo.serverinfo(client,message)
         await channel.send(msg)
+        return
 
     if messagetext.startswith('!thumb'):
         await examples.thumb(client,message)
