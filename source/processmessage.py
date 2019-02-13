@@ -1,8 +1,8 @@
 # Check if message contains a command
 
-from plugins.randomize import randomize
-from plugins.logging import logging
-from plugins.serverinfo import serverinfo
+from plugins import randomize
+from plugins import logging
+from plugins import serverinfo
 from plugins import examples
 import random
 
@@ -36,14 +36,14 @@ async def detect_command(client, message):
         await channel.send(msg)
 
     if messagetext.startswith("!random"):
-        msg = randomize(message)
+        msg = randomize.randomize(message)
         await channel.send(msg)
         
     if messagetext.startswith('!roll'):
         await channel.send(f"`{random.randint(1,6)}`")
 
     if messagetext.startswith('!log'):
-        logging(client)
+        logging.logging(client)
         return
 
     if messagetext.startswith("!wavecheck"):
@@ -52,7 +52,7 @@ async def detect_command(client, message):
         return
     
     if messagetext.startswith('!serverinfo') or messagetext.startswith('!users'):
-        msg = serverinfo(client,message)
+        msg = serverinfo.serverinfo(client,message)
         await channel.send(msg)
 
     if messagetext.startswith('!thumb'):
