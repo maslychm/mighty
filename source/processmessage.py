@@ -1,10 +1,10 @@
 # Check if message contains a command
 
 from plugins import randomize
-from plugins import logging
 from plugins import serverinfo
 from plugins import examples
 from plugins import helps
+from plugins import onjoin
 import random
 
 async def detect_command(client, message):
@@ -48,10 +48,6 @@ async def detect_command(client, message):
         await channel.send(f"`{random.randint(1,6)}`")
         return
 
-    if messagetext.startswith('!log'):
-        logging.logging(client)
-        return
-
     if messagetext.startswith("!wavecheck"):
         msg = await examples.wavecheck(client,message)
         await channel.send(msg)
@@ -64,6 +60,10 @@ async def detect_command(client, message):
 
     if messagetext.startswith('!thumb'):
         await examples.thumb(client,message)
+        return
+
+    if messagetext.startswith('!gentest'):
+        await onjoin.test_welcome(client,message)
         return
 
     return
