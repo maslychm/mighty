@@ -1,10 +1,13 @@
 from PIL import Image, ImageFont, ImageDraw
 import discord
-import os 
+import os
+import requests
+from io import BytesIO
 
-# FIXME Poorly writte, yet to be worked on 
-def generate_onjoin_pic(username):
+def generate_onjoin_pic(namestr,url):
     # Get and print current working directory
+    
+    # Debug:
     #cwd = os.getcwd()
     #print(cwd)
 
@@ -12,27 +15,39 @@ def generate_onjoin_pic(username):
     im = Image.open("plugins/template.PNG")
     font_type = ImageFont.truetype("plugins/PlayfairDisplaySC-Bold.otf",39)
 
+    # Get and resize user avatar from url
+    response = requests.get(url)
+    avatar = Image.open(BytesIO(response.content))
+    avatar.thumbnail((64,64), Image.ANTIALIAS)
+
     # Add text user name to image
     draw = ImageDraw.Draw(im)
-    draw.text(xy=(185,70),text=username,fill=(17,17,19),font=font_type)
-    #im.show()
+    draw.text(xy=(185,70),text=namestr,fill=(17,17,19),font=font_type)
+    im.paste(avatar,box=(5,5))
     im.save("tmp/temp.png")
     return "tmp/temp.png"
 
-# For now to test just reply into user's DM
 async def test_welcome(client,message):
 
-    #channel = discord.Guild.get_channel(491900012104646668)
-    
-    # Get the string of user name
-    user = message.author
-    if isinstance(user,discord.Member):
-        username = user.nick
-    else: 
-        username = user.name
-    print(username)
-    toEmbed = generate_onjoin_pic(username)
-    await message.channel.send(file=discord.File(toEmbed))
+    # For debug only
+    if isinstance(message,str):
+        namestr = message
+        image = generate_onjoin_pic(namestr,"")
+        return
+
+    # Check if channel is DM or whitelisted
+    WHITELIST = [491899563527897089,491900012104646668]
+    if not (isinstance(message.channel,discord.DMChannel)
+    or message.channel.id in WHITELIST):
+        return
+
+    # Get user name string
+    namestr = message.author.name
+    if (message.author.nick):
+        namestr = message.author.nick
+
+    image = generate_onjoin_pic(namestr,message.author.avatar_url)
+    await message.channel.send(file=discord.File(image))
     return
 
 if __name__ == "__main__":
