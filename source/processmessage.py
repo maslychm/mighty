@@ -66,4 +66,6 @@ async def detect_command(client, message):
         await onjoin.test_welcome(client,message)
         return
 
-    return
+    # Hardcoding my id to make sure it's me shutting down :)
+    if 'shutdown' in messagetext and message.author.id == 232346727221297164:
+        quit()

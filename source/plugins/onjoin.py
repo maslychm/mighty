@@ -27,6 +27,23 @@ def generate_onjoin_pic(namestr,url):
     im.save("tmp/temp.png")
     return "tmp/temp.png"
 
+async def onjoin_welcome(client,member):
+    channel = client.get_channel(491900012104646668)
+    namestr = member.name
+    if (member.nick):
+        namestr = member.nick
+    image = generate_onjoin_pic(namestr,member.avatar_url)
+    await channel.send(file=discord.File(image))
+    return
+
+async def on_leave(client,member):
+    channel = client.get_channel(491900012104646668)
+    namestr = member.name
+    if (member.nick):
+        namestr = member.nick
+    await channel.send(f"{member.name}, has left us")
+    return
+    
 async def test_welcome(client,message):
 
     # For debug only
@@ -51,4 +68,4 @@ async def test_welcome(client,message):
     return
 
 if __name__ == "__main__":
-    welcome_message("client","mighty_lord")
+    test_welcome("client","mighty_lord")

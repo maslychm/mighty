@@ -4,16 +4,23 @@ import discord
 import asyncio
 import credentials
 from processmessage import detect_command
+from plugins import onjoin
 
 class MightyBOT(discord.Client):
 
 	async def on_message(self, message):
-		# Don't reply to yourself
 		if message.author == self.user:
 			return
 
-		# Parse message
 		await detect_command(client, message)
+		return
+
+	async def on_member_join(self, member):
+		await onjoin.onjoin_welcome(client,member)
+		return
+
+	async def on_member_remove(self,member):
+		await onjoin.on_leave(client,member)
 		return
 			
 	async def on_ready(self):
