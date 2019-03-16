@@ -41,16 +41,10 @@ async def on_leave(client,member):
     namestr = member.name
     if (member.nick):
         namestr = member.nick
-    await channel.send(f"{member.name}, has left us")
+    await channel.send(f"{member.name} left the channel")
     return
     
 async def test_welcome(client,message):
-
-    # For debug only
-    if isinstance(message,str):
-        namestr = message
-        image = generate_onjoin_pic(namestr,"")
-        return
 
     # Check if channel is DM or whitelisted
     WHITELIST = [491899563527897089,491900012104646668]
@@ -60,12 +54,9 @@ async def test_welcome(client,message):
 
     # Get user name string
     namestr = message.author.name
-    if (message.author.nick):
+    if hasattr(message.author,"nick"):
         namestr = message.author.nick
 
     image = generate_onjoin_pic(namestr,message.author.avatar_url)
     await message.channel.send(file=discord.File(image))
     return
-
-if __name__ == "__main__":
-    test_welcome("client","mighty_lord")
