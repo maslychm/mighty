@@ -12,9 +12,9 @@ class MightyBOT(discord.Client):
 		if message.author == self.user:
 			return
 
-		if message.channel == discord.DMChannel:
+		if isinstance(message.channel,discord.DMChannel):
 			print(message.created_at, message.author.name, message.content)
-			
+
 		await detect_command(client, message)
 		return
 

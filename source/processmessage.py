@@ -30,7 +30,7 @@ async def detect_command(client, message):
         await channel.send(msg)
         return
 
-    if messagetext.startswith('!help'):
+    if messagetext.startswith('!help') or messagetext.startswith('!list'):
         await helps.helps(client,message)
         return
 

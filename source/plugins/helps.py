@@ -51,6 +51,11 @@ async def helps(client,message):
         inline = False
     )
 
-    await message.channel.send(msg,embed=embedded)
+    embedded.add_field(
+        name="!gentest",
+        value="Test welcome image generation",
+        inline=False
+    )
 
+    await message.channel.send(msg,embed=embedded)
     return

@@ -55,7 +55,9 @@ async def test_welcome(client,message):
     # Get user name string
     namestr = message.author.name
     if hasattr(message.author,"nick"):
-        namestr = message.author.nick
+        if message.author.nick is not None:
+            if message.author.nick:
+                namestr = message.author.nick
 
     image = generate_onjoin_pic(namestr,message.author.avatar_url)
     await message.channel.send(file=discord.File(image))
