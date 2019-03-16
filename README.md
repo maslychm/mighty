@@ -6,9 +6,14 @@
 ### Existing functions
    - Random integer in specified range `!random a to b`
    - Roll a dice `!roll`
-   - Help screen `!help`
+   - Help screen `!help` or `!list`
    - Server information `!serverinfo` or `!users`
    - MightyBOT information `!info`
-   - Testing commands `!test` `!hello` `!thumb` 
+   - Testing commands `!test` `!hello` `!thumb`
+   - Generate a welcome picture `!gentest`
    
-   More commands and features will be added in the future
+### Other functionality
+   - Welcome new member with a picture
+   - Display if today is a US Holiday on `!users` call
+   
+More commands and features will be added in the future
