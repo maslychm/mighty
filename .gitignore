@@ -1,6 +1,8 @@
 .vscode/
-source/credentials.py
+credentials.py
 bot.bat
+testing.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

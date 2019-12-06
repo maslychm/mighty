@@ -8,7 +8,7 @@
    - Roll a dice `!roll`
    - Help screen `!help` or `!list`
    - Server information `!serverinfo` or `!users`
-   - MightyBOT information `!info`
+   - MightyBOT information `!botinfo`
    - Testing commands `!test` `!hello` `!thumb`
    - Generate a welcome picture `!gentest`
    

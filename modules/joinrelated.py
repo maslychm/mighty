@@ -5,15 +5,9 @@ import requests
 from io import BytesIO
 
 def generate_onjoin_pic(namestr,url):
-    # Get and print current working directory
-    
-    # Debug:
-    #cwd = os.getcwd()
-    #print(cwd)
-
     # Open image file and font file
-    im = Image.open("plugins/template.PNG")
-    font_type = ImageFont.truetype("plugins/PlayfairDisplaySC-Bold.otf",39)
+    im = Image.open("modules/template.PNG")
+    font_type = ImageFont.truetype("modules/PlayfairDisplaySC-Bold.otf",39)
 
     # Get and resize user avatar from url
     response = requests.get(url)
@@ -41,13 +35,13 @@ async def on_leave(client,member):
     namestr = member.name
     if (member.nick):
         namestr = member.nick
-    await channel.send(f"{member.name} left the channel")
+    await channel.send(f"{namestr} left the channel")
     return
     
 async def test_welcome(client,message):
 
     # Check if channel is DM or whitelisted
-    WHITELIST = [491899563527897089,491900012104646668]
+    WHITELIST = [491899563527897089,491900012104646668,652345677942358026]
     if not (isinstance(message.channel,discord.DMChannel)
     or message.channel.id in WHITELIST):
         return
