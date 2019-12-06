@@ -73,3 +73,10 @@ async def helpfunc(message):
     )
 
     await message.channel.send(msg,embed=embedded)
+
+async def linkVoiceStream(message):
+    gID = message.guild.id
+    vcID = message.author.voice.channel.id
+    ret = """Click on link for screen share: 
+    http://www.discordapp.com/channels/{}/{}""".format(gID, vcID)
+    await message.channel.send(ret)

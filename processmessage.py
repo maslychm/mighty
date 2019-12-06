@@ -12,6 +12,7 @@ commandList = {
     "!users" : gd.serverinfo,
     "!botinfo" : gd.botinfo,
     "!hello" : usr.hello,
+    "!link" : gd.linkVoiceStream,
 }
 
 # Need a cliend argument passed

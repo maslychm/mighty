@@ -12,6 +12,7 @@ class Mighty(discord.Client):
         print('Message from {0.author}: {0.content}'.format(message))
 
         if message.content.startswith("close") and message.author.id == 232346727221297164:
+            await message.channel.send("shutting down...")
             await client.close()
 
         if message.author.bot:
