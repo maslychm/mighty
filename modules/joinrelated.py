@@ -6,8 +6,8 @@ from io import BytesIO
 
 def generate_onjoin_pic(namestr,url):
     # Open image file and font file
-    im = Image.open("modules/template.PNG")
-    font_type = ImageFont.truetype("modules/PlayfairDisplaySC-Bold.otf",39)
+    im = Image.open("resources/template.PNG")
+    font_type = ImageFont.truetype("resources/PlayfairDisplaySC-Bold.otf",39)
 
     # Get and resize user avatar from url
     response = requests.get(url)
@@ -27,16 +27,14 @@ async def onjoin_welcome(client,member):
     if (member.nick):
         namestr = member.nick
     image = generate_onjoin_pic(namestr,member.avatar_url)
-    await channel.send(file=discord.File(image))
-    return
+    return await channel.send(file=discord.File(image))
 
 async def on_leave(client,member):
     channel = client.get_channel(491900012104646668)
     namestr = member.name
     if (member.nick):
         namestr = member.nick
-    await channel.send(f"{namestr} left the channel")
-    return
+    return await channel.send(f"{namestr} left the channel")
     
 async def test_welcome(client,message):
 
@@ -54,5 +52,4 @@ async def test_welcome(client,message):
                 namestr = message.author.nick
 
     image = generate_onjoin_pic(namestr,message.author.avatar_url)
-    await message.channel.send(file=discord.File(image))
-    return
+    return await message.channel.send(file=discord.File(image))

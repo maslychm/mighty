@@ -1,5 +1,6 @@
 .vscode/
 credentials.py
+/modules/voice.py
 bot.bat
 testing.txt
 

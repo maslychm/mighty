@@ -25,9 +25,8 @@ commandList2 = {
 async def detect_command(client, message):
     for comm, func in commandList.items():
         if comm in message.content:
-            await func(message)
-            return
+            return await func(message)
 
     for comm, func in commandList2.items():
         if comm in message.content:
-            await func(client, message)
+            return await func(client, message)

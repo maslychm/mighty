@@ -79,8 +79,7 @@ async def helpfunc(message):
 async def linkVoiceStream(message):
     if (isinstance(message.channel, discord.DMChannel)
     or message.author.voice is None):
-        await message.channel.send("Join a Voice Chat on Server")
-        return
+        return await message.channel.send("Join a Voice Chat on Server")
     
     vcID = message.author.voice.channel.id
     gID = message.guild.id

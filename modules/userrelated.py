@@ -32,11 +32,9 @@ async def wavecheck(client,message):
     """
 
     if isinstance(message.channel, discord.DMChannel):
-        await message.channel.send("Feature only available on server")
-        return
+        return await message.channel.send("Feature only available on server")
     if not message.mentions:
-        await message.channel.send("Mention at least one user")
-        return
+        return await message.channel.send("Mention at least one user")
     
     # Get first mentioned member
     mentioned = message.mentions[0]
