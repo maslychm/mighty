@@ -32,13 +32,14 @@ async def wavecheck(client,message):
     """
 
     if isinstance(message.channel, discord.DMChannel):
-        return "Sorry, no wavechecking in DMs"
+        await message.channel.send("Feature only available on server")
+        return
     if not message.mentions:
-        return "You have to mention a user to wavecheck them"
+        await message.channel.send("Mention at least one user")
+        return
     
     # Get first mentioned member
     mentioned = message.mentions[0]
-
     await message.channel.send(f"{mentioned.mention}, you have 20 seconds to respond...")
 
     # Check if the mentioned user responded with key phrase

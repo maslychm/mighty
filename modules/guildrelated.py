@@ -4,6 +4,8 @@ import holidays
 import calendar
 
 async def serverinfo(message):
+    if not isinstance(message.channel, discord.TextChannel):
+        return
     guild = message.guild
     guildname = guild.name
     membernum = guild.member_count
@@ -75,8 +77,13 @@ async def helpfunc(message):
     await message.channel.send(msg,embed=embedded)
 
 async def linkVoiceStream(message):
-    gID = message.guild.id
+    if (isinstance(message.channel, discord.DMChannel)
+    or message.author.voice is None):
+        await message.channel.send("Join a Voice Chat on Server")
+        return
+    
     vcID = message.author.voice.channel.id
+    gID = message.guild.id
     ret = """Click on link for screen share: 
     http://www.discordapp.com/channels/{}/{}""".format(gID, vcID)
     await message.channel.send(ret)
