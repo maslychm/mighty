@@ -1,8 +1,11 @@
 .vscode/
 credentials.py
-/modules/voice.py
 bot.bat
 testing.txt
+tmp/
+
+*.webm
+*.mp3
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
