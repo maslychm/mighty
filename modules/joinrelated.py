@@ -18,8 +18,8 @@ def generate_onjoin_pic(namestr,url):
     draw = ImageDraw.Draw(im)
     draw.text(xy=(185,70),text=namestr,fill=(17,17,19),font=font_type)
     im.paste(avatar,box=(5,5))
-    im.save("tmp/temp.png")
-    return "tmp/temp.png"
+    im.save("temp/tempImg.png")
+    return "temp/tempImg.png"
 
 async def onjoin_welcome(client,member):
     channel = client.get_channel(491900012104646668)
