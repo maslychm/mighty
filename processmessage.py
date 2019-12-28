@@ -21,6 +21,7 @@ commandList2 = {
     "!thumb" : usr.thumb,
     "!wavecheck" : usr.wavecheck,
     "!gentest" : jn.test_welcome,
+    "!genhat" : jn.generate_hat,
 }
 
 commandListMusic = {

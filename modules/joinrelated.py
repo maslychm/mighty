@@ -35,6 +35,34 @@ async def on_leave(client,member):
     if (member.nick):
         namestr = member.nick
     return await channel.send(f"{namestr} left the channel")
+
+async def generate_hat(client,message):
+
+    # Check if channel is DM or whitelisted
+    WHITELIST = [491899563527897089,491900012104646668,652345677942358026]
+    if not (isinstance(message.channel,discord.DMChannel)
+    or message.channel.id in WHITELIST):
+        return
+
+    # Get their profile pic URL
+    response = requests.get(message.author.avatar_url)
+    avatar = Image.open(BytesIO(response.content))
+    avatar.thumbnail((300,300), Image.ANTIALIAS)
+
+    # Put the hat on top
+    hatImg = Image.open('resources/Hat.png')
+    hatImg.thumbnail((200,200), Image.ANTIALIAS)
+    av_w, av_h = avatar.size
+    hat_w, hat_h = hatImg.size
+
+    offset = ((av_w - hat_w) // 2, (av_h - hat_h) // 2)
+    offset = ((av_w - hat_w), 0)
+
+    avatar.paste(hatImg, offset, mask=hatImg)
+    avatar.save("temp/avhat.png")
+    
+    # Send
+    return await message.channel.send(file=discord.File("temp/avhat.png"))
     
 async def test_welcome(client,message):
 
