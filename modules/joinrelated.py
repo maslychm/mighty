@@ -48,16 +48,23 @@ async def generate_hat(client,message):
     # Get their profile pic
     response = requests.get(targetuser.avatar_url)
     avatar = Image.open(BytesIO(response.content))
-    avatar.thumbnail((300,300), Image.ANTIALIAS)
     av_w, av_h = avatar.size
 
-    # get hat from resources
+    # Get hat from resources
     hatImg = Image.open('resources/Hat.png')
-    hatImg.thumbnail((200,200), Image.ANTIALIAS)
     hat_w, hat_h = hatImg.size
+    
+    # Check if avatar is too small and resize hat to 3:2
+    if av_w < 300 or av_h < 300:
+        hatImg.thumbnail((av_w / 3 * 2, av_h / 3 * 2), Image.ANTIALIAS)
+        hat_w, hat_h = hatImg.size
+    else:
+        avatar.thumbnail((300,300), Image.ANTIALIAS)
+        hatImg.thumbnail((200,200), Image.ANTIALIAS)
+        hat_w, hat_h = hatImg.size
+        av_w, av_h = avatar.size
 
     # Paste hat on correct offsets
-    offset = ((av_w - hat_w) // 2, (av_h - hat_h) // 2)
     offset = ((av_w - hat_w), 0)
     avatar.paste(hatImg, offset, mask=hatImg)
     avatar.save("temp/avhat.png")
