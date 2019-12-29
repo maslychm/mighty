@@ -4,20 +4,22 @@ import os
 import requests
 from io import BytesIO
 
+MAXSIZE = 300
+
 def generate_onjoin_pic(namestr,url):
     # Open image file and font file
     im = Image.open("resources/template.PNG")
     font_type = ImageFont.truetype("resources/PlayfairDisplaySC-Bold.otf",39)
 
-    # Get and resize user avatar from url
+    # Get and resize user imageBG from url
     response = requests.get(url)
-    avatar = Image.open(BytesIO(response.content))
-    avatar.thumbnail((64,64), Image.ANTIALIAS)
+    imageBG = Image.open(BytesIO(response.content))
+    imageBG.thumbnail((64,64), Image.ANTIALIAS)
 
     # Add text user name to image
     draw = ImageDraw.Draw(im)
     draw.text(xy=(185,70),text=namestr,fill=(17,17,19),font=font_type)
-    im.paste(avatar,box=(5,5))
+    im.paste(imageBG,box=(5,5))
     im.save("temp/tempImg.png")
     return "temp/tempImg.png"
 
@@ -26,7 +28,7 @@ async def onjoin_welcome(client,member):
     namestr = member.name
     if (member.nick):
         namestr = member.nick
-    image = generate_onjoin_pic(namestr,member.avatar_url)
+    image = generate_onjoin_pic(namestr,member.imageBG_url)
     return await channel.send(file=discord.File(image))
 
 async def on_leave(client,member):
@@ -41,35 +43,39 @@ async def generate_hat(client,message):
     if not is_whitelisted(message):
         return
 
-    targetuser = message.author
-    if message.mentions:
-        targetuser = message.mentions[0]
+    imageBG = None
 
-    # Get their profile pic
-    response = requests.get(targetuser.avatar_url)
-    avatar = Image.open(BytesIO(response.content))
-    av_w, av_h = avatar.size
+    if message.attachments:
+        # Deal with attachment case FIXME
+        pass
+    elif message.mentions:
+        targetUser = message.mentions[0]
+        response = requests.get(targetUser.avatar_url)
+        imageBG = Image.open(BytesIO(response.content))
+    else:
+        response = requests.get(message.author.avatar_url)
+        imageBG = Image.open(BytesIO(response.content))
+    
+    bg_w, bg_h = imageBG.size
 
     # Get hat from resources
     hatImg = Image.open('resources/Hat.png')
     hat_w, hat_h = hatImg.size
     
-    # Check if avatar is too small and resize hat to 3:2
-    if av_w < 300 or av_h < 300:
-        hatImg.thumbnail((av_w / 3 * 2, av_h / 3 * 2), Image.ANTIALIAS)
+    # Check if imageBG is too small and resize hat to 3:2
+    if bg_w < MAXSIZE or bg_h < MAXSIZE:
+        hatImg.thumbnail((bg_w / 3 * 2, bg_h / 3 * 2), Image.ANTIALIAS)
         hat_w, hat_h = hatImg.size
     else:
-        avatar.thumbnail((300,300), Image.ANTIALIAS)
-        hatImg.thumbnail((200,200), Image.ANTIALIAS)
-        hat_w, hat_h = hatImg.size
-        av_w, av_h = avatar.size
+        imageBG.thumbnail((MAXSIZE,MAXSIZE), Image.ANTIALIAS)
+        bg_w, bg_h = imageBG.size
 
     # Paste hat on correct offsets
-    offset = ((av_w - hat_w), 0)
-    avatar.paste(hatImg, offset, mask=hatImg)
-    avatar.save("temp/avhat.png")
+    offset = ((bg_w - hat_w), 0)
+    imageBG.paste(hatImg, offset, mask=hatImg)
+    imageBG.save("temp/temphat.png")
     
-    return await message.channel.send(file=discord.File("temp/avhat.png"))
+    return await message.channel.send(file=discord.File("temp/temphat.png"))
     
 async def test_welcome(client,message):
 
