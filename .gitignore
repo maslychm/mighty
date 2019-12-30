@@ -2,7 +2,7 @@
 credentials.py
 bot.bat
 testing.txt
-tmp/
+temp/
 
 *.webm
 *.mp3
