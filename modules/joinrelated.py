@@ -43,11 +43,16 @@ async def generate_hat(client,message):
     if not is_whitelisted(message):
         return
 
+    # Get the correct image based on request
     imageBG = None
-
+    
     if message.attachments:
-        # Deal with attachment case FIXME
-        pass
+        if message.attachments[0].url.lower().endswith((".jpg",".jpeg",".png")):
+            response = requests.get(message.attachments[0].url)
+            imageBG = Image.open(BytesIO(response.content))
+        else:
+            return await message.channel.send("Attachment has to be an image")
+
     elif message.mentions:
         targetUser = message.mentions[0]
         response = requests.get(targetUser.avatar_url)
