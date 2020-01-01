@@ -1,4 +1,5 @@
 # MightyBOT
+   ![Bot Logo](/resources/botlogo.PNG)
 
    A simple Discord bot based on [discord.py](https://github.com/Rapptz/discord.py) API wrapper  
    Written as a side project for adding functionality to a Discord server
