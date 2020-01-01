@@ -2,6 +2,13 @@ import asyncio
 import discord
 import youtube_dl
 
+'''
+When I was reading more of documentation for how this all works,
+I realized that my solution is horrible, but for the sake of not
+spending 10 hours on making this perfect, I'll have some workarounds
+and might come back to make this portion of code more salable
+'''
+
 youtube_dl.utils.bug_reports_message = lambda: ''
 
 ytdl_format_options = {
@@ -50,15 +57,15 @@ async def join(client, message):
     await channel.connect()
 
 async def stop(client, ctx):
-    await client.voice_clients[0].disconnect()
+    if len(client.voice_clients):
+        await client.voice_clients[0].disconnect()
+    else:
+        return
 
 async def stream(client, message):
     """Streams from a url (same as yt, but doesn't predownload)"""
 
-    # ADD joining directly when called
-    # Shorten check to execute once before entering any stream function
-    # Deal with case when song is already playing
-    # (LONG TERM) Implement queue
+    await join(client, message)
 
     text = message.content.split()
 
@@ -73,25 +80,12 @@ async def stream(client, message):
             client.voice_clients[0].play(player, after=lambda e: print('Player error: %s' % e) if e else None)
     except (youtube_dl.utils.DownloadError, youtube_dl.utils.ExtractorError):
         return await message.channel.send("Something wrong with link")
+    except discord.ClientException:
+        await stop(client, None)
+        await stream(client, message)
+        return
 
     await message.channel.send('Now playing: {}'.format(player.title))
-
-async def yt(client, message):
-    """Plays from a url (almost anything youtube_dl supports)"""
-
-    text = message.content.split()
-
-    if len(text) != 2:
-        return await message.channel.send("Use: `!stream YOURLINK`")
-
-    url = text[1]
-
-    try:
-        async with message.channel.typing():
-            player = await YTDLSource.from_url(url)
-            client.voice_clients[0].play(player, after=lambda e: print('Player error: %s' % e) if e else None)
-    except (youtube_dl.utils.DownloadError, youtube_dl.utils.ExtractorError):
-        return await message.channel.send("Something wrong with link")
 
 async def volume(client, message):
     """Changes the player's volume"""

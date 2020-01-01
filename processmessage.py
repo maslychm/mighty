@@ -26,8 +26,8 @@ commandList2 = {
 
 commandListMusic = {
     "!join" : mu.join,
-    "!yt" : mu.yt,
     "!stream" : mu.stream,
+    "!play" : mu.stream,
     "!volume" : mu.volume,
     "!stop" : mu.stop,
 }
