@@ -31,7 +31,7 @@ async def onjoin_welcome(client,member):
     namestr = member.name
     if (member.nick):
         namestr = member.nick
-    generate_onjoin_pic(namestr,member.imageBG_url)
+    generate_onjoin_pic(namestr,member.avatar_url)
     return await channel.send(file=discord.File(TEMP_WELCOME_PATH))
 
 async def on_leave(client,member):
