@@ -7,6 +7,7 @@ from io import BytesIO
 MAXPICSIZE = 300
 IMAGES_ALLOWED_LIST = [491899563527897089,491900012104646668,652345677942358026]
 JOIN_LEAVE_NOTIF_CHANNEL = 491900012104646668
+BOT_NOTIFICATIONS_CHANNEL = 683887166065344639
 TEMP_WELCOME_PATH = "temp/tempImg.png"
 TEMP_HAT_PATH = "temp/temphat.png"
 
@@ -35,11 +36,14 @@ async def onjoin_welcome(client,member):
     return await channel.send(file=discord.File(TEMP_WELCOME_PATH))
 
 async def on_leave(client,member):
-    channel = client.get_channel(JOIN_LEAVE_NOTIF_CHANNEL)
+    channel = client.get_channel(BOT_NOTIFICATIONS_CHANNEL)
+    admin = client.get_user(232346727221297164)
     namestr = member.name
     if (member.nick):
         namestr = member.nick
-    return await channel.send(f"{namestr} left the channel")
+    await channel.send(f"{namestr} left the server")
+    await admin.send(f"{namestr} left the server")
+    return
 
 async def generate_hat(client,message):
 

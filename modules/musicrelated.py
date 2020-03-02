@@ -79,7 +79,7 @@ async def stream(client, message):
             player = await YTDLSource.from_url(url, stream=True)
             client.voice_clients[0].play(player, after=lambda e: print('Player error: %s' % e) if e else None)
     except (youtube_dl.utils.DownloadError, youtube_dl.utils.ExtractorError):
-        return await message.channel.send("Something wrong with link")
+        return await message.channel.send("Something is wrong with the link")
     except discord.ClientException:
         await stop(client, None)
         await stream(client, message)
