@@ -1,32 +1,32 @@
-import discord
-import processmessage
-import modules.joinrelated as onjoin
-
+import datetime
+from discord.ext import commands
 from credentials import TOKEN as TOKEN
+from cogs import admin
 
-ADMIN_ID = 232346727221297164
+description = '''
+Bot for servers mighty likes :)
+'''
 
-class Mighty(discord.Client):
+class MightyBot(commands.Bot):
     async def on_ready(self):
-        print('Logged on as {0}'.format(self.user))
+        print(f'Started: {datetime.datetime.now()}')
+        print(f'Ready: {self.user} (ID: {self.user.id})')
 
-    async def on_message(self, message):
-        print('Message from {0.author}: {0.content}'.format(message))
+    async def on_member_join(self, ctx):
+        pass
+        #FIXME
 
-        if message.content.startswith("close") and message.author.id == ADMIN_ID:
-            await message.channel.send("shutting down...")
-            await client.close()
+    async def on_member_remove(self, ctx):
+        pass
+        #FIXME
 
-        if message.author.bot:
-            return
 
-        await processmessage.detect_command(self, message)
+bot = MightyBot(
+    command_prefix=commands.when_mentioned_or('.'), 
+    description=description,
+    # owner_id=232346727221297164,
+    )
 
-    async def on_member_join(self, member):
-        await onjoin.onjoin_welcome(client,member)
-
-    async def on_member_remove(self,member):
-        await onjoin.on_leave(client,member)
-
-client = Mighty()
-client.run(TOKEN)
+# bot.add_cog(TestCog(bot))
+bot.add_cog(admin.Administration(bot))
+bot.run(TOKEN)
