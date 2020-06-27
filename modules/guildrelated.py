@@ -75,14 +75,3 @@ async def helpfunc(message):
     )
 
     await message.channel.send(msg,embed=embedded)
-
-async def linkVoiceStream(message):
-    if (isinstance(message.channel, discord.DMChannel)
-    or message.author.voice is None):
-        return await message.channel.send("Must be in a voice channel")
-    
-    vcID = message.author.voice.channel.id
-    gID = message.guild.id
-    ret = """Click on link for screen share: 
-    http://www.discordapp.com/channels/{}/{}""".format(gID, vcID)
-    await message.channel.send(ret)

@@ -5,14 +5,15 @@ class Administration(commands.Cog):
         self.bot = bot
 
     @commands.command(name='close')
+    @commands.is_owner()
     async def close(self, ctx: commands.Context):
-        isowner = await self.bot.is_owner(ctx.message.author)
-        if isowner:
-            await ctx.channel.send("admin: shutting down...")
-            await self.bot.close()
+        """Close the Bot client"""
+        await ctx.channel.send("admin: shutting down...")
+        await self.bot.close()
 
     @commands.command(name='checkowner')
-    async def checkadmin(self, ctx: commands.Context):
+    async def checkowner(self, ctx: commands.Context):
+        """Check if user is a bot owner"""
         isowner = await self.bot.is_owner(ctx.message.author)
         if isowner:
             await ctx.channel.send("admin: you're an owner")
