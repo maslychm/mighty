@@ -16,6 +16,7 @@ bot = MightyBot(
     command_prefix=commands.when_mentioned_or('.'), 
     description=description,
     # owner_id=232346727221297164,
+    help_command=None,
     )
 
 bot.add_cog(admin.Administration(bot))
