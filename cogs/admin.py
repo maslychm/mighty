@@ -68,6 +68,7 @@ class Administration(commands.Cog):
         embedded = Embed(title='Help Page 1', color=0x44DC26)
         embedded.add_field(name='play <YT Link>', value='Play music from YouTube', inline=False)
         embedded.add_field(name="wavecheck", value="got waves?", inline = False)
+        embedded.add_field(name="nuzzle", value="nuzzle somebody", inline=False)
         embedded.add_field(name='help2', value='Help page 2', inline=False)
 
         await ctx.send(embed=embedded)
