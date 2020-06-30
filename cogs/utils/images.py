@@ -73,3 +73,31 @@ def generate_hat(member_id, url=None):
     imageBG.save(retpath)
 
     return retpath
+
+
+def generate_nuzzle(a, m, reversed=False):
+    nuzzlestr = a + " *nuzzles* " + m
+    print(nuzzlestr)
+    retpath = "fpath"
+
+    # Check if dir exists
+    if not os.path.isdir(os.getcwd() + "/temp/"):
+        os.mkdir(os.getcwd() + "/temp/")
+        print("making dir here")
+
+    # Set up return path
+    retpath = "temp/n" + a + "_" + m + ".png"
+
+    # Open template and font
+    impath = "resources/nuzzle_template.jpeg"
+    if reversed:
+        impath = "resources/nuzzle_template_reversed.jpeg"
+
+    im = Image.open(impath)
+    font_type = ImageFont.truetype("resources/PlayfairDisplaySC-Bold.otf",32)
+
+    draw = ImageDraw.Draw(im)
+    draw.text(xy=(50,240),text=nuzzlestr,fill=(17,17,19),font=font_type)
+    im.save(retpath)
+
+    return retpath
