@@ -21,7 +21,7 @@ def generate_onjoin_pic(namestr: str, member_id: int, url):
 
     # Open template and font
     im = Image.open("resources/template.PNG")
-    font_type = ImageFont.truetype("resources/PlayfairDisplaySC-Bold.otf",39)
+    font_type = ImageFont.truetype("resources/Ubuntu-Regular.ttf",39)
 
     # Get and resize user imageBG from url
     response = requests.get(url)
@@ -30,7 +30,7 @@ def generate_onjoin_pic(namestr: str, member_id: int, url):
 
     # Add text user name to image
     draw = ImageDraw.Draw(im)
-    draw.text(xy=(185,70),text=namestr,fill=(17,17,19),font=font_type)
+    draw.text(xy=(185,75),text=namestr.lower(),fill=(17,17,19),font=font_type)
     im.paste(imageBG,box=(5,5))
     im.save(retpath)
 
@@ -108,7 +108,7 @@ def generate_nuzzle(a, m, a_url, m_url, reversed=False):
 
 
     im = Image.open(impath)
-    font_type = ImageFont.truetype("resources/Ubuntu-Regular.ttf",32)
+    font_type = ImageFont.truetype("resources/Ubuntu-Regular.ttf",40)
 
     draw = ImageDraw.Draw(im)
     draw.text(xy=(70,240),text=nuzzlestr,fill=(17,17,19),font=font_type)
