@@ -54,14 +54,16 @@ class Games(commands.Cog):
         
         mentioned = ctx.message.mentions[0]
         m_str = mentioned.name
+        m_url = mentioned.avatar_url
         if mentioned.nick is not None:
             m_str = mentioned.nick
 
         a_str = ctx.message.author.name
+        a_url = ctx.message.author.avatar_url
         if ctx.message.author.nick is not None:
             a_str = ctx.message.author.nick
 
-        fpath = images.generate_nuzzle(a_str, m_str, reversed=False)
+        fpath = images.generate_nuzzle(a_str, m_str, a_url, m_url, reversed=False)
         await ctx.send(f"{m_str} gets _nuzzled_", file=discord.File(fpath))
 
         # Ask a user if they want to nuzzle back
@@ -80,7 +82,7 @@ class Games(commands.Cog):
         except asyncio.TimeoutError:
             pass
         else:
-            fpath = images.generate_nuzzle(m_str, a_str, reversed=True)
+            fpath = images.generate_nuzzle(m_str, a_str, a_url, m_url, reversed=True)
             await ctx.send(f"{a_str} was _nuzzled_ back", file=discord.File(fpath))
         finally: 
             await message_to_react.delete()

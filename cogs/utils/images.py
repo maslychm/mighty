@@ -75,10 +75,12 @@ def generate_hat(member_id, url=None):
     return retpath
 
 
-def generate_nuzzle(a, m, reversed=False):
+def generate_nuzzle(a, m, a_url, m_url, reversed=False):
     nuzzlestr = a + " *nuzzles* " + m
-    print(nuzzlestr)
     retpath = "fpath"
+
+    box_author = (360,130)
+    box_mentioned = (690,45)
 
     # Check if dir exists
     if not os.path.isdir(os.getcwd() + "/temp/"):
@@ -88,16 +90,30 @@ def generate_nuzzle(a, m, reversed=False):
     # Set up return path
     retpath = "temp/n" + a + "_" + m + ".png"
 
+    # Download author and mentioned avatars
+    response = requests.get(a_url)
+    author_image = Image.open(BytesIO(response.content))
+    author_image.thumbnail((64,64), Image.ANTIALIAS)
+
+    response = requests.get(m_url)
+    mentined_image = Image.open(BytesIO(response.content))
+    mentined_image.thumbnail((64,64), Image.ANTIALIAS)
+
     # Open template and font
-    impath = "resources/nuzzle_template.jpeg"
+    impath = "resources/swordfish_template.jpg"
     if reversed:
-        impath = "resources/nuzzle_template_reversed.jpeg"
+        impath = "resources/swordfish_template_reversed.jpg"
+        box_author = (400,130)
+        box_mentioned = (70,45)
+
 
     im = Image.open(impath)
-    font_type = ImageFont.truetype("resources/PlayfairDisplaySC-Bold.otf",32)
+    font_type = ImageFont.truetype("resources/Ubuntu-Regular.ttf",32)
 
     draw = ImageDraw.Draw(im)
-    draw.text(xy=(50,240),text=nuzzlestr,fill=(17,17,19),font=font_type)
+    draw.text(xy=(70,240),text=nuzzlestr,fill=(17,17,19),font=font_type)
+    im.paste(author_image,box=box_author)
+    im.paste(mentined_image,box=box_mentioned)
     im.save(retpath)
 
     return retpath
