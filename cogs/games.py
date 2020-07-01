@@ -70,7 +70,10 @@ class Games(commands.Cog):
         await message_to_react.add_reaction("❌")
 
         def check(reaction, user):
-            return user == mentioned and str(reaction.emoji) == '✅'
+            return (user == mentioned
+                and str(reaction.emoji) == '✅'
+                and reaction.message.id == message_to_react.id
+                )
 
         try:
             reaction, user = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
