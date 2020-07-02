@@ -71,18 +71,22 @@ class Games(commands.Cog):
         await message_to_react.add_reaction("✅")
         await message_to_react.add_reaction("❌")
 
+        # check() returns true if ✅ or ❌ reaction and ignore all other input
+        # further assume one of two cases and only deal with positive
         def check(reaction, user):
-            return (user == mentioned
-                and str(reaction.emoji) == '✅'
+            return (
+                user == mentioned 
                 and reaction.message.id == message_to_react.id
-                )
+                and (str(reaction.emoji) == '✅' or str(reaction.emoji) == '❌')                    
+            )
 
         try:
             reaction, user = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
         except asyncio.TimeoutError:
             pass
         else:
-            fpath = images.generate_nuzzle(m_str, a_str, a_url, m_url, reversed=True)
-            await ctx.send(f"{a_str} was _nuzzled_ back", file=discord.File(fpath))
-        finally: 
+            if str(reaction.emoji) == '✅':
+                fpath = images.generate_nuzzle(m_str, a_str, a_url, m_url, reversed=True)
+                await ctx.send(f"{a_str} was _nuzzled_ back", file=discord.File(fpath))
+        finally:
             await message_to_react.delete()
