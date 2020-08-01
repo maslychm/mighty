@@ -9,7 +9,6 @@ class Administration(commands.Cog):
         self.helpmsg_guild_dict = {}
         self.helpmsg2_guild_dict = {}
         self.botinfo_guild_dict = {}
-        # FIXME make the shits delete themselves
 
     @commands.command(name='close')
     @commands.is_owner()
